@@ -1,0 +1,155 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.14/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+    
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,800&display=swap" rel="stylesheet">
+
+    <!-- Fengyuan Chen's Datepicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+
+    {% if title %}
+        <title>Django - {{ title }}</title>
+    {% else %}
+        <title>Django Default</title>
+    {% endif %}
+
+</head>
+<body>
+
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+            <!-- bouton 3 barres qd site en petit -->
+            <button aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                    data-target="#navbarToggle" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse" id="navbarToggle">
+                <!-- Navbar partie de gauche -->
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="{% url 'blog-home' %}"><i class="fa fa-home"></i> Home</a>
+                    <a class="nav-item nav-link" href="{% url 'blog-about' %}"><i class="fa fa-info-circle"></i> About</a>
+                </div>
+
+                <!-- <div class="navbar-nav mx-auto">
+                     <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search a request" aria-label="Search">
+                        <button class="btn btn-dark ml-2" type="submit">Search</button>
+                     </form>
+                </div> -->
+
+                <!-- Navbar partie droite -->
+                <div class="navbar-nav">
+                    {% if user.is_authenticated %} <!-- si l'utilisateur est connecté -->
+                        {% if user.is_staff %}
+                        <a class="nav-item nav-link" href="{% url 'request-create' %}"><i class="fa fa-plus"></i> New request</a>
+                        <a class="nav-item nav-link" href="{% url 'admin-panel' %}"><i class="fa fa-cog"></i> Admin Panel</a>
+                        {% endif %}
+                        <a class="nav-item nav-link" href="{% url 'profile' %}"><i class="fa fa-user"></i> Profile</a>
+                        <a class="nav-item nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Logout</a>
+                    {% else %} <!-- si l'utilisateur n'est pas connecté -->
+                        <a class="nav-item nav-link" href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-12">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+      {% block content %} {% endblock %}
+    </div>
+      <!-- Sidebar -->
+  <!--
+    <div class="col-md-4">
+      <div class="content-section">
+        <h3>Our Sidebar</h3>
+        <p class='text-muted'>You can put any information here you'd like.
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-light">Latest Posts</li>
+            <li class="list-group-item list-group-item-light">Announcements</li>
+            <li class="list-group-item list-group-item-light">Calendars</li>
+            <li class="list-group-item list-group-item-light">etc</li>
+          </ul>
+        </p>
+      </div>
+    </div>
+   -->
+  </div>
+</main>
+
+<script src="https://use.fontawesome.com/96efc4366e.js"></script>
+<script src="https://use.fontawesome.com/a969cfc98a.js"></script>
+<script src="https://use.fontawesome.com/355214ab4a.js"></script>
+<script src="https://use.fontawesome.com/cd089ff891.js"></script>
+<script src="https://use.fontawesome.com/3820ab10a5.js"></script>
+<script src="https://use.fontawesome.com/d00235ec58.js"></script>
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script crossorigin="anonymous"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.14/js/jquery.dataTables.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.14/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'blog/app.js' %}"></script>
+
+<script>
+    $(function(){
+        $("#id_start_date").datepicker();
+        $("#id_deadline").datepicker();
+    });
+</script>
+</body>
+</html>

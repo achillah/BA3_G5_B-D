@@ -1,0 +1,105 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<div class="container p-30">
+    <div class="row">
+        <div class="col-md-12 main-datatable">
+            <div class="card_body">
+                <div class="row d-flex">
+                    <div class="col-sm-4 createSegment"> 
+                     <a class="btn dim_button create_new" href="{% url 'request-create' %}"> <span class="glyphicon glyphicon-plus"></span> Create A New Request</a>
+                    </div>
+                    <div class="col-sm-8 add_flex">
+                        <div class="form-group searchInput">
+                            <label for="email">Search:</label>
+                            <input type="search" class="form-control" id="filterbox" placeholder=" ">
+                        </div>
+                    </div> 
+                </div>
+                <div class="overflow-x">
+                    <table style="width:100%;" id="filtertable" class="table cust-datatable dataTable no-footer">
+                        <thead>
+                            <tr>
+                                <th >Title</th>
+                                <th >Reference</th>
+                                <th >Start date</th>
+                                <th >Deadline</th>
+                                <!-- si l'utilisateur est un administrateur : affichage du Budget -->
+                                {% if user.is_staff %}
+                                <th >Budget</th>
+                                {% endif %}
+                                <th >Priority</th>
+                                <th >Faction</th>
+                                <th >Consultant</th>
+                                <th >Main skills</th>
+                                <th>Consultant level</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                                {% for request in requests %}
+                            <tr>
+
+                                <td>{{request.title}}</td>
+                                <td>{{request.reference_number}}</td>
+                                <td>{{request.start_date}}</td>
+                                <td>{{request.deadline}}</td>
+                                {% if user.is_staff %}
+                                <td>{{request.budget}}</td>
+                                {% endif %}
+                                <td>{{request.get_priority_display}}</td>
+                                <td>{{request.faction}}</td>
+                                <td>{{request.consultant}}</td>
+                                <td>{{request.main_skills}}</td>
+                                <td>{{request.get_consultant_level_display}}</td>
+                                {% if request.status == "1" %}
+                                <td><span class="mode mode_done">{{request.get_status_display}}</span></td>
+                                {% elif request.status == "2" %}
+                                <td><span class="mode mode_process">{{request.get_status_display}}</span></td>
+                                {% else %}
+                                <td><span class="mode mode_off">{{request.get_status_display}}</span></td>
+
+
+                                {% endif %}
+
+                                <td>
+                                    <div class="btn-group">
+                                        <a class="dropdown-toggle dropdown_icon" data-toggle="dropdown">
+                                            <i class="fa fa-ellipsis-h"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown_more">
+                                            <li>
+                                                <a href="{% url 'request-delete' request.id %}" target="_black">
+                                                    <i class="fa fa-trash"></i> Delete
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'request-update' request.id %}" target="_black">
+                                                    <i class="fa fa-pencil fa-fw"></i>Update</a>
+                                                </li>
+                                            <li>
+                                                <a href="{% url 'request-detail' request.id %}" target="_black">
+                                                    <i class="fa fa-list"></i>Detail</a>
+                                                </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            {% endfor %}                              
+                                
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+
+
+{% endblock content %}

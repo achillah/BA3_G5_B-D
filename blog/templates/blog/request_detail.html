@@ -1,0 +1,85 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <article class="media content-section">
+
+<div class="container p-30">
+    <div class="row">
+        <div class="col-md-12 main-datatable">
+            <div class="card_body">
+
+                <div class="overflow-x">
+                    <table style="width:100%;" id="filtertable" class="table cust-datatable dataTable no-footer">
+                        <thead>
+                            <tr>
+                                <th >Title</th>
+                                <th >Reference</th>
+                                <th >Start date</th>
+                                <th >Deadline</th>
+                                <!-- si l'utilisateur est un administrateur : affichage du Budget -->
+                                {% if user.is_staff %}
+                                <th >Budget</th>
+                                {% endif %}
+                                <th >Priority</th>
+                                <th >Faction</th>
+                                <th >Consultant</th>
+                                <th >Main skills</th>
+                                <th>Consultant level</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            <tr>
+                                <td>{{object.title}}</td>
+                                <td>{{object.reference_number}}</td>
+                                <td>{{object.start_date}}</td>
+                                <td>{{object.deadline}}</td>
+                                {% if user.is_staff %}
+                                <td>{{object.budget}}</td>
+                                {% endif %}
+                                <td>{{object.get_priority_display}}</td>
+                                <td>{{object.faction}}</td>
+                                <td>{{object.consultant}}</td>
+                                <td>{{object.main_skills}}</td>
+                                <td>{{object.get_consultant_level_display}}</td>
+                                {% if object.status == "1" %}
+                                <td><span class="mode mode_done">{{object.get_status_display}}</span></td>
+                                {% elif object.status == "2" %}
+                                <td><span class="mode mode_process">{{object.get_status_display}}</span></td>
+                                {% else %}
+                                <td><span class="mode mode_off">{{object.get_status_display}}</span></td>
+
+                                {% endif %}
+
+                                <td>
+                                    <div class="btn-group">
+                                        <a class="dropdown-toggle dropdown_icon" data-toggle="dropdown">
+                                            <i class="fa fa-ellipsis-h"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown_more">
+                                            <li>
+                                                <a href="{% url 'request-delete' object.id %}" target="_black">
+                                                    <i class="fa fa-trash"></i> Delete
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'request-update' request.id %}" target="_black">
+                                                    <i class="fa fa-list"></i>Update</a>
+                                                </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                     </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </article>
+{% endblock content %}

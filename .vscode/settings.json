@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e7c7ec94-2d1c-4399-aae0-65b42a0bd4b4/AppServices/subscriptions/e7c7ec94-2d1c-4399-aae0-65b42a0bd4b4/resourceGroups/helb-ba3-2022-G5/providers/Microsoft.Web/sites/helb-ba3-2022-g5-dev",
+    "appService.deploySubpath": "."
+}
